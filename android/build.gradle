@@ -26,4 +26,5 @@ allprojects {
         google()
         maven { url 'https://www.jitpack.io' }
     }
+    //buildDir = "C:/temp/${rootProject.name}/${project.name}"
 }

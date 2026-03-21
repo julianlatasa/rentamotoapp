@@ -1,0 +1,118 @@
+╔════════════════════════════════════════════════════════════════╗
+║                 SOLUCIÓN RÁPIDA - 3 PASOS                       ║
+║                                                                  ║
+║  Error: "Failed to get SHA-1 for metro-runtime"                ║
+╚════════════════════════════════════════════════════════════════╝
+
+
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━████
+┃ PASO 1: LIMPIAR                                              ████
+┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━████
+
+📁 Abre esta carpeta:
+   C:\Users\Julian\Desarrollo\rent-a-moto-app\RentAMotoApp
+
+📄 Busca el archivo:
+   EJECUTAR_PARA_LIMPIAR.bat
+
+🖱️ Haz doble clic en él
+   (o clic derecho → Ejecutar como administrador)
+
+⏳ Espera a que muestre:
+   "LIMPIEZA COMPLETADA"
+
+✓ Presiona una tecla para cerrar
+
+
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━████
+┃ PASO 2: INICIAR METRO                                       ████
+┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━████
+
+⌨️ Abre CMD:
+   Presiona Windows + R
+   Escribe: cmd
+   Presiona Enter
+
+📝 Copia y pega esto:
+   cd c:\Users\Julian\Desarrollo\rent-a-moto-app\RentAMotoApp
+   npm start -- --reset-cache
+
+⏳ ESPERA hasta ver:
+   "Compiled successfully" ✓
+   (1-2 minutos aprox)
+
+⚠️ NO CIERRES ESTA VENTANA
+
+
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━████
+┃ PASO 3: EJECUTAR APP                                        ████
+┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━████
+
+🪟 Abre UNA NUEVA ventana CMD:
+   Presiona Windows + R
+   Escribe: cmd
+   Presiona Enter
+
+📝 Copia y pega esto:
+   cd c:\Users\Julian\Desarrollo\rent-a-moto-app\RentAMotoApp
+   npm run android
+
+⏳ Espera a que:
+   1. Compile ✓
+   2. Instale en emulador ✓
+   3. Abra la app ✓
+
+📱 Cuando veas la app abierta:
+   - 4 pestañas en la parte inferior
+   - Puedes navegar entre tabs
+   - ¡Funciona! ✓
+
+
+════════════════════════════════════════════════════════════════
+
+SI ALGO SALE MAL:
+
+❌ Metro se queja de SHA-1
+   → Vuelve a ejecutar el script de limpieza
+   → Luego: npm start -- --reset-cache
+
+❌ npm: No se puede cargar el archivo
+   → Asegúrate de abrir CMD, NO PowerShell
+   → Presiona Windows + R y escribe: cmd
+
+❌ "Cannot find module"
+   → Cierra todo y ejecuta:
+     npm install
+
+❌ Otros errores
+   → Lee: SOLUCIONES_ERROR_METRO.txt
+   → O: INSTRUCCIONES_ERROR_METRO_PASO_A_PASO.txt
+
+
+════════════════════════════════════════════════════════════════
+
+📌 RECORDATORIOS
+
+✓ Usa CMD, no PowerShell
+✓ Ten paciencia en el PASO 2 (puede tardar minutos)
+✓ Mantén abierta la ventana de Metro mientras usas la app
+✓ Si no funciona a la primera, intenta de nuevo
+✓ 9 de 10 veces funciona en el primer intento
+
+
+════════════════════════════════════════════════════════════════
+
+¿FUNCIONÓ?
+
+Si ves la app abierta con las 4 pestañas en la parte inferior:
+
+🎉 ¡ÉXITO! 
+
+Ahora puedes:
+- Navegar entre las 4 vistas
+- Ver datos dummy
+- Probar la app completa
+- Prepararte para integrar API real
+
+
+¡Buena suerte! 🚀

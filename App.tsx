@@ -1,14 +1,33 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { View, ActivityIndicator, Text } from 'react-native';
+import { PaperProvider, BottomNavigation } from 'react-native-paper';
 import { AuthProvider, AuthContext } from './src/contexts/AuthContext';
 import { LoginScreen } from './src/screens/LoginScreen';
 import { RegisterScreen } from './src/screens/RegisterScreen';
-import { HomeScreen } from './src/screens/HomeScreen';
+import { OffersScreen } from './src/screens/OffersScreen';
+import { MyOffersScreen } from './src/screens/MyOffersScreen';
+import { ChatScreen } from './src/screens/ChatScreen';
 import { ProfileScreen } from './src/screens/ProfileScreen';
+import { theme } from './src/theme/theme';
 import { styles } from './src/styles/styles';
 
 function AppContent() {
   const { isAuthenticated, loading, view, navigate } = useContext(AuthContext);
+  const [index, setIndex] = useState(0);
+
+  const routes = [
+    { key: 'offers', title: 'Motos', icon: 'motorcycle' },
+    { key: 'myoffers', title: 'Mis Ofertas', icon: 'plus-circle' },
+    { key: 'chat', title: 'Chat', icon: 'chat' },
+    { key: 'profile', title: 'Perfil', icon: 'account' },
+  ];
+
+  const renderScene = BottomNavigation.SceneMap({
+    offers: OffersScreen,
+    myoffers: MyOffersScreen,
+    chat: ChatScreen,
+    profile: ProfileScreen,
+  });
 
   if (loading) {
     return (
@@ -27,11 +46,16 @@ function AppContent() {
           {view === 'register' && <RegisterScreen onSwitchToLogin={() => navigate('login')} />}
         </>
       ) : (
-        <>
-          {view === 'home' && <HomeScreen onCreateOffer={() => navigate('createOffer')} onProfile={() => navigate('profile')} />}
-          {view === 'profile' && <ProfileScreen onLogout={() => navigate('login')} />}
-          {/* Añadir CreateOfferScreen aquí si es necesario */}
-        </>
+        <BottomNavigation
+          navigationState={{ index, routes }}
+          onIndexChange={setIndex}
+          renderScene={renderScene}
+          shifting={false}
+          labeled={true}
+          activeColor="#6750A4"
+          inactiveColor="#79747E"
+          barStyle={{ backgroundColor: '#FEF7FF' }}
+        />
       )}
     </View>
   );
@@ -39,8 +63,10 @@ function AppContent() {
 
 export default function App() {
   return (
-    <AuthProvider>
-      <AppContent />
-    </AuthProvider>
+    <PaperProvider theme={theme}>
+      <AuthProvider>
+        <AppContent />
+      </AuthProvider>
+    </PaperProvider>
   );
 }

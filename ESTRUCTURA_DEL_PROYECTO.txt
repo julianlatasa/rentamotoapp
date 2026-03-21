@@ -1,0 +1,202 @@
+// ESTRUCTURA ACTUALIZADA DEL PROYECTO
+// ====================================
+
+/*
+
+APLICACIÓN COMPLETA
+───────────────────
+
+                        ┌─────────────┐
+                        │   App.tsx   │
+                        │(with Paper) │
+                        └──────┬──────┘
+                               │
+                    ┌──────────┴──────────┐
+                    │                     │
+            ┌───────▼────────┐    ┌──────▼──────────┐
+            │   NO Autenticado   │   SÍ Autenticado   │
+            └────────┬────────┘    └──────┬──────────┘
+                     │                     │
+        ┌────────────┴────────────┐        │
+        │                         │        │
+    ┌───▼──────┐         ┌───────▼──┐     │
+    │  Login   │         │ Register  │     │
+    │ Screen   │         │ Screen    │     │
+    └──────────┘         └───────────┘     │
+                                           │
+                        ┌──────────────────▼──────────────────────┐
+                        │      BOTTOM NAVIGATION (4 Tabs)         │
+                        └──────────────────────────────────────────┘
+                                       │
+        ┌──────────────┬───────────────┼───────────────┬──────────────┐
+        │              │               │               │              │
+    ┌───▼────┐    ┌───▼────────┐ ┌───▼────┐    ┌───▼────────┐
+    │  TAB 1 │    │   TAB 2    │ │ TAB 3  │    │   TAB 4    │
+    │ 🏍️ Motos  │    │ ➕ Mis Ofertas │ │ 💬 Chat │    │ 👤 Perfil   │
+    └───┬────┘    └───┬────────┘ └───┬────┘    └───┬────────┘
+        │              │               │            │
+    ┌───▼────────────────┐   ┌───────▼────┐  ┌────▼──────────┐
+    │ OffersScreen       │   │ ChatScreen  │  │ ProfileScreen│
+    │ ────────────────── │   │ ──────────── │  │───────────────│
+    │ • Ver motos        │   │ • Mensajes  │  │• Info usuario │
+    │ • Filtrar          │   │ • Conversar │  │• Cerrar sesión│
+    │ • Detalles         │   │ • Enviar msg│  │• Datos reales │
+    │ • Alquilar         │   │ • Dummy data│  │               │
+    │ • Dummy data       │   │             │  │               │
+    └────────────────────┘   └─────────────┘  └────────────────┘
+
+                ┌─────────────────────────┐
+                │  MyOffersScreen (TAB 2) │
+                │  ─────────────────────  │
+                │  (3 sub-tabs internas)  │
+                └────────┬────────────────┘
+                         │
+         ┌───────────────┼───────────────┐
+         │               │               │
+    ┌────▼────┐    ┌────▼────┐    ┌───▼────┐
+    │ Mis Motos   │ Propuestas │ Agregar Moto
+    │ ────────    │ ──────────│ ────────────
+    │ • Mis motos │ • Solicitudes│ • Formulario
+    │ • Status    │ • Pendientes │ • Marca
+    │ • Editar    │ • Aceptadas  │ • Modelo
+    │ • Dummy data│ • Rechazadas │ • Año
+    │             │ • Dummy data │ • Precio
+    │             │              │ • Descripción
+    └─────────────┴──────────────┴──────────────┘
+
+FLUJO DE AUTENTICACIÓN
+──────────────────────
+    
+    [App Start]
+         │
+         ▼
+    [Loading = true]
+         │
+         ▼
+    [Fetch Token]
+         │
+    ┌────┴────┐
+    │          │
+ [Token OK]  [No Token]
+    │          │
+    ▼          ▼
+[Autenticado] [No Autenticado]
+    │          │
+    ▼          ▼
+[Bottom Nav]  [Login/Register]
+
+ESTRUCTURA DE ARCHIVOS IMPORTANTE
+──────────────────────────────────
+
+src/
+├── screens/
+│   ├── LoginScreen.js (✓ Actualizado con Paper)
+│   ├── RegisterScreen.js (✓ Actualizado con Paper)
+│   ├── OffersScreen.js (✓ NUEVO - Tab 1)
+│   ├── MyOffersScreen.js (✓ NUEVO - Tab 2)
+│   ├── ChatScreen.js (✓ NUEVO - Tab 3)
+│   ├── ProfileScreen.js (✓ Actualizado con Paper)
+│   └── HomeScreen.js (❌ Obsoleto - Reemplazado por OffersScreen)
+├── contexts/
+│   └── AuthContext.js (Sin cambios)
+├── services/
+│   └── api.js (Sin cambios)
+├── styles/
+│   └── styles.js (Sin cambios)
+└── theme/
+    └── theme.js (✓ Nuevo tema Paper)
+
+App.tsx (✓ Actualizado con BottomNavigation)
+
+COMPONENTES Y LIBRERIAS UTILIZADAS
+───────────────────────────────────
+
+react-native-paper:
+  ✓ PaperProvider - Envuelve la app
+  ✓ BottomNavigation - Barra inferior
+  ✓ Button - Botones con variantes
+  ✓ TextInput - Inputs con label
+  ✓ Card - Tarjetas
+  ✓ Text - Texto con variantes
+  ✓ ActivityIndicator - Cargadores
+  ✓ IconButton - Botones con iconos
+  ✓ TabBar - Tabs internos (en MyOffers)
+  ✓ Avatar - Avatares (opcional)
+  ✓ Divider - Separadores
+
+react-native-vector-icons:
+  ✓ MaterialCommunityIcons - Iconos usados
+
+ICONS UTILIZADOS
+────────────────
+
+Tab 1: motorcycle    (🏍️)  - Material Icons
+Tab 2: plus-circle   (➕)  - Material Icons
+Tab 3: chat          (💬)  - Material Icons
+Tab 4: account       (👤)  - Material Icons
+
+Otros iconos usados internamente:
+  • close        - Modal close button
+  • send         - Send message button
+  • check        - Status indicators
+
+FLUJO DE DATOS (Estado)
+───────────────────────
+
+App.tsx:
+  - Estado: index (pestaña activa)
+  - Se reinicia cada vez que se abre la app
+  - Valor por defecto: 0 (pestaña Motos)
+
+AuthContext (Global):
+  - token: JWT del usuario
+  - user: Datos del usuario
+  - isAuthenticated: true/false
+  - view: Controla Login vs Logueado (deprecated)
+
+Pantallas individuales:
+  - Cada pantalla puede tener su propio estado local
+  - Ejemplo: MyOffersScreen tiene estado de formulario
+
+PRÓXIMAS MEJORAS
+────────────────
+
+1. Integración con API real
+   [ ] Reemplazar dummy data con fetchs
+   [ ] Implementar carga de motos verdaderas
+   [ ] Sincronizar mensajes
+
+2. Persistencia de estado
+   [ ] Guardar pestaña activa
+   [ ] Caché de lista de motos
+
+3. Notificaciones
+   [ ] Badge con número de mensajes
+   [ ] Badge con solicitudes pendientes
+   [ ] Push notifications
+
+4. Funcionalidad adicional
+   [ ] Búsqueda y filtros en motos
+   [ ] Rating de usuarios
+   [ ] Historial de alquileres
+   [ ] Pagos en app
+
+5. Experiencia usuario
+   [ ] Animaciones entre tabs
+   [ ] Transiciones suaves
+   [ ] Gestos swipe
+   [ ] Dark mode (opcional)
+
+*/
+
+console.log(`
+  ╔════════════════════════════════════════════╗
+  ║  ✅ SISTEMA DE NAVEGACIÓN IMPLEMENTADO  ║
+  ║                                            ║
+  ║  4 Pestañas con datos Dummy                ║
+  ║  Bottom Navigation con Iconos Material    ║
+  ║  Material Design 3 en toda la app         ║
+  ║                                            ║
+  ║  Status: ¡Listo para usar! 🚀            ║
+  ╚════════════════════════════════════════════╝
+`);

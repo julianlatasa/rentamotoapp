@@ -1,0 +1,202 @@
+// SOLUCIONES PARA ERROR DE METRO
+// ===============================
+
+/*
+
+ERROR RECIBIDO:
+───────────────
+"Failed to get the SHA-1 for: C:\Users\Julian\Desarrollo\rent-a-moto-app\RentAMotoApp\node_modules\metro-runtime\src\polyfills\require.js"
+
+CAUSA:
+──────
+La caché de Metro está corrupta o hay inconsistencias en las dependencias.
+
+
+SOLUCIÓN (Paso a Paso)
+──────────────────────
+
+OPCIÓN 1: LIMPIAR CACHÉ (Rápido - Inténta primero esto)
+────────────────────────────────────────────────────────
+
+1. Mata el servidor Metro (CTRL+C en la terminal donde está corriendo)
+
+2. Ejecuta estos comandos en cmd.exe (no PowerShell):
+
+   cd c:\Users\Julian\Desarrollo\rent-a-moto-app\RentAMotoApp
+   
+   npx npm cache clean --force
+   
+   npm start -- --reset-cache
+
+3. Espera a que compile y muestre "Compiled successfully"
+
+4. Abre otra terminal y ejecuta:
+   npm run android
+   (o npm run ios si usas Mac)
+
+
+OPCIÓN 2: LIMPIAR COMPLETO (Si opción 1 no funciona)
+──────────────────────────────────────────────────────
+
+1. Abre CMD (no PowerShell)
+
+2. Ejecuta:
+
+   cd c:\Users\Julian\Desarrollo\rent-a-moto-app\RentAMotoApp
+   
+   REM Eliminar node_modules
+   rmdir /s /q node_modules
+   
+   REM Eliminar package-lock
+   del package-lock.json
+   
+   REM Limpiar caché de npm
+   npm cache clean --force
+   
+   REM Reinstalar todo
+   npm install
+   
+   REM Intentar metro
+   npm start -- --reset-cache
+
+3. En una nueva terminal:
+   npm run android
+
+
+OPCIÓN 3: SI TODO FALLA - Reseteo Total
+─────────────────────────────────────────
+
+1. Abre CMD como Administrador (clic derecho → "Ejecutar como administrador")
+
+2. Ejecuta:
+
+   cd c:\Users\Julian\Desarrollo\rent-a-moto-app\RentAMotoApp
+   
+   REM Limpiar todo completamente
+   rmdir /s /q node_modules
+   rmdir /s /q android\local.properties
+   del package-lock.json
+   del gradle.properties
+   
+   REM Limpiar Android build
+   cd android
+   gradlew clean
+   cd ..
+   
+   REM Reinstalar y ejecutar
+   npm install
+   npm start -- --reset-cache
+
+3. En otra terminal:
+   npm run android
+
+
+OPCIÓN 4: Si aún persiste - Revisar metro.config.js
+───────────────────────────────────────────────────
+
+Los archivos metro.config.js pueden estar bloqueando rutas.
+
+Abre: metro.config.js
+
+Verifica que esté así:
+
+const config = {
+  project: {
+    ios: {},
+    android: {},
+  },
+  transformer: {
+    getTransformOptions: async () => ({
+      transform: {
+        experimentalImportSupport: false,
+        inlineRequires: false,
+      },
+    }),
+  },
+};
+
+module.exports = config;
+
+Si ves algo con blockList, comenta esas líneas.
+
+
+COMANDOS ÚTILES
+───────────────
+
+# Ver versión de React Native
+npm list react-native
+
+# Ver versión de Metro
+npm list metro
+
+# Listar procesos que uso puerto 8081
+netstat -ano | findstr :8081
+
+# Matar proceso que usa puerto 8081 (Windows)
+taskkill /PID <PID> /F
+
+# Limpiar Android (en la carpeta android/)
+gradlew clean
+
+# Resetear caché de Gradle
+rmdir /s /q .gradle
+
+
+CHECKLIST DE SOLUCIÓN
+─────────────────────
+
+[ ] 1. Mata Metro (CTRL+C)
+[ ] 2. Ejecuta npm start -- --reset-cache
+[ ] 3. Espera "Compiled successfully"
+[ ] 4. Abre nueva terminal y ejecuta npm run android
+[ ] 5. Si persiste, intenta OPCIÓN 2
+[ ] 6. Si persiste, intenta OPCIÓN 3 como Administrador
+[ ] 7. Si persiste, OPCIÓN 4 (reviewar metro.config.js)
+
+
+ERRORES RELACIONADOS
+────────────────────
+
+Si ves estos errores, aplica las mismas soluciones:
+- "Cannot find module 'metro'"
+- "Metro failed to get SHA-1"
+- "DependencyGraph error"
+- "Watchman error"
+
+
+VERIFICACIÓN FINAL
+───────────────────
+
+Una vez funcione, verifica:
+
+[ ] Metro muestra "Compiled successfully"
+[ ] Android Studio muestra "BUILD SUCCESSFUL"
+[ ] La app se abre en el emulador
+[ ] Las 4 pestañas de navegación aparecen
+[ ] Puedes navegar entre tabs
+
+
+AYUDA ADICIONAL
+────────────────
+
+Si el error persiste después de todas estas soluciones:
+
+1. Verifica que tienes suficiente espacio en disco
+2. Desactiva temporalmente antivirus/firewall
+3. Usa una terminal fresca (abre una nueva)
+4. Intenta en otra carpeta del disco (para descartar problemas de permisos)
+
+
+*/
+
+console.log(`
+  ╔════════════════════════════════════════╗
+  ║  Error de Metro - Guía Rápida         ║
+  ║                                        ║
+  ║  Intenta OPCIÓN 1 primero              ║
+  ║  Si no funciona, OPCIÓN 2              ║
+  ║  Si persiste, OPCIÓN 3 como Admin     ║
+  ║                                        ║
+  ║  9 de 10 veces funciona! 🎯           ║
+  ╚════════════════════════════════════════╝
+`);

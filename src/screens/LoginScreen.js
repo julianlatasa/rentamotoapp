@@ -1,6 +1,7 @@
 // src/screens/LoginScreen.js
 import React, { useState, useContext } from 'react';
-import { View, Text, TextInput, Alert, TouchableOpacity, Image, ActivityIndicator } from 'react-native';
+import { View, Image, ScrollView } from 'react-native';
+import { TextInput, Button, Text, ActivityIndicator } from 'react-native-paper';
 import { AuthContext } from '../contexts/AuthContext';
 import { authService } from '../services/api';
 import { styles } from '../styles/styles';
@@ -13,7 +14,7 @@ export const LoginScreen = ({ onSwitchToRegister }) => {
 
   const handleLogin = async () => {
     if (!email || !password) {
-      Alert.alert('Error', 'Por favor completa todos los campos');
+      alert('Error: Por favor completa todos los campos');
       return;
     }
 
@@ -26,58 +27,62 @@ export const LoginScreen = ({ onSwitchToRegister }) => {
         username: response.username 
       });
     } catch (error) {
-      Alert.alert('Error', error.message || 'Usuario o contraseña incorrectos');
+      alert('Error: ' + (error.message || 'Usuario o contraseña incorrectos'));
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <View style={styles.centerContainer}>
+    <ScrollView contentContainerStyle={styles.centerContainer}>
       <Image 
         source={require('../../assets/icon.png')} 
         style={styles.logo}
       />
-      <Text style={styles.title}>Rent-A-Moto</Text>
+      <Text variant="headlineLarge" style={{ textAlign: 'center', marginBottom: 32 }}>
+        Rent-A-Moto
+      </Text>
       
       <TextInput
-        style={styles.input}
-        placeholder="Email"
-        placeholderTextColor="#79747E"
+        label="Email"
+        placeholder="correo@ejemplo.com"
         value={email}
         onChangeText={setEmail}
         autoCapitalize="none"
         editable={!loading}
         keyboardType="email-address"
+        mode="outlined"
+        style={{ marginBottom: 16 }}
       />
       
       <TextInput
-        style={styles.input}
-        placeholder="Contraseña"
-        placeholderTextColor="#79747E"
+        label="Contraseña"
+        placeholder="Tu contraseña"
         value={password}
         onChangeText={setPassword}
         secureTextEntry
         editable={!loading}
+        mode="outlined"
+        style={{ marginBottom: 24 }}
       />
       
-      {/* Botón personalizado estilo Material Design 3 */}
-      <TouchableOpacity 
-        style={[styles.button, loading && styles.buttonDisabled]} 
+      <Button 
+        mode="contained" 
         onPress={handleLogin}
         disabled={loading}
-        activeOpacity={0.8}
+        loading={loading}
+        style={{ marginBottom: 16 }}
       >
-        {loading ? (
-          <ActivityIndicator color="#FFF" />
-        ) : (
-          <Text style={styles.buttonText}>Iniciar Sesión</Text>
-        )}
-      </TouchableOpacity>
+        {loading ? 'Iniciando sesión...' : 'Iniciar Sesión'}
+      </Button>
 
-      <TouchableOpacity onPress={onSwitchToRegister} disabled={loading}>
-        <Text style={styles.link}>¿No tienes cuenta? Regístrate</Text>
-      </TouchableOpacity>
-    </View>
+      <Button 
+        mode="text" 
+        onPress={onSwitchToRegister} 
+        disabled={loading}
+      >
+        ¿No tienes cuenta? Regístrate
+      </Button>
+    </ScrollView>
   );
 };

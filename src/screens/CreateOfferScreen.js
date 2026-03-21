@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, Alert } from 'react-native';
+import { ScrollView, View } from 'react-native';
+import { TextInput, Button, Text } from 'react-native-paper';
 import { offerService } from '../services/api';
 import { styles } from '../styles/styles';
 
@@ -11,22 +12,22 @@ export const CreateOfferScreen = ({ onOfferCreated, onCancel }) => {
 
   const handleCreateOffer = async () => {
     if (!descripcion || !precioMin || !precioMax) {
-      Alert.alert('Error', 'Por favor completa todos los campos');
+      alert('Error: Por favor completa todos los campos');
       return;
     }
 
     if (parseFloat(precioMin) > parseFloat(precioMax)) {
-      Alert.alert('Error', 'El precio mínimo no puede ser mayor al precio máximo');
+      alert('Error: El precio mínimo no puede ser mayor al precio máximo');
       return;
     }
 
     setLoading(true);
     try {
       await offerService.createOffer(descripcion, precioMin, precioMax);
-      Alert.alert('Éxito', 'Oferta creada correctamente');
+      alert('Éxito: Oferta creada correctamente');
       onOfferCreated();
     } catch (error) {
-      Alert.alert('Error', error.message || 'No se pudo crear la oferta');
+      alert('Error: ' + (error.message || 'No se pudo crear la oferta'));
       console.error(error);
     } finally {
       setLoading(false);
@@ -34,35 +35,62 @@ export const CreateOfferScreen = ({ onOfferCreated, onCancel }) => {
   };
 
   return (
-    <View style={styles.centerContainer}>
-      <Text style={styles.title}>Publicar Moto</Text>
+    <ScrollView contentContainerStyle={styles.centerContainer}>
+      <Text variant="headlineLarge" style={{ marginBottom: 32, textAlign: 'center' }}>
+        Publicar Moto
+      </Text>
+
       <TextInput
-        style={styles.input}
-        placeholder="Descripción (ej. Honda Wave 110)"
+        label="Descripción"
+        placeholder="Ej. Honda Wave 110"
         value={descripcion}
         onChangeText={setDescripcion}
         editable={!loading}
+        mode="outlined"
+        style={{ marginBottom: 16 }}
       />
+
       <TextInput
-        style={styles.input}
-        placeholder="Precio Mínimo"
+        label="Precio Mínimo"
+        placeholder="Ej. 50"
         value={precioMin}
         onChangeText={setPrecioMin}
         keyboardType="numeric"
         editable={!loading}
+        mode="outlined"
+        style={{ marginBottom: 16 }}
       />
+
       <TextInput
-        style={styles.input}
-        placeholder="Precio Máximo"
+        label="Precio Máximo"
+        placeholder="Ej. 100"
         value={precioMax}
         onChangeText={setPrecioMax}
         keyboardType="numeric"
         editable={!loading}
+        mode="outlined"
+        style={{ marginBottom: 24 }}
       />
-      <View style={styles.row}>
-        <Button title="Cancelar" color="red" onPress={onCancel} disabled={loading} />
-        <Button title={loading ? "Publicando..." : "Publicar"} onPress={handleCreateOffer} disabled={loading} />
+
+      <View style={{ flexDirection: 'row', gap: 8 }}>
+        <Button
+          mode="outlined"
+          onPress={onCancel}
+          disabled={loading}
+          style={{ flex: 1 }}
+        >
+          Cancelar
+        </Button>
+        <Button
+          mode="contained"
+          onPress={handleCreateOffer}
+          disabled={loading}
+          loading={loading}
+          style={{ flex: 1 }}
+        >
+          {loading ? "Publicando..." : "Publicar"}
+        </Button>
       </View>
-    </View>
+    </ScrollView>
   );
 };

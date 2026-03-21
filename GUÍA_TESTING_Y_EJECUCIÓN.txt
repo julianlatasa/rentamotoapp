@@ -1,0 +1,293 @@
+// GUÍA DE EJECUCIÓN Y TESTING
+// ===========================
+
+/*
+
+ANTES DE INICIAR
+────────────────
+
+1. Asegúrate de tener instaladas las dependencias:
+   npm install
+
+   Si faltan paquetes de react-native-paper:
+   npm install react-native-paper react-native-vector-icons
+
+
+EJECUTAR LA APLICACIÓN
+──────────────────────
+
+Para Android:
+   npm run android
+   o
+   react-native run-android
+
+Para iOS:
+   npm run ios
+   o
+   react-native run-ios
+
+Para iniciar el Metro bundler:
+   npm start
+   o
+   react-native start
+
+
+QUÉ VAS A VER
+─────────────
+
+PRIMERA CARGA
+────────────
+✓ Pantalla de verificación de sesión (Loading...)
+✓ Si no hay sesión guardada → Pantalla de Login
+
+LOGIN
+────
+✓ Titulo "Rent-A-Moto"
+✓ Input de Email (con label y outline)
+✓ Input de Contraseña (con label y outline)
+✓ Botón "Iniciar Sesión" (modo contained)
+✓ Enlace "¿No tienes cuenta? Regístrate" (modo text)
+✓ Colores: Púrpura (#6750A4) para elementos principales
+
+REGISTRO (si clickeas el enlace)
+────────
+✓ Formulario con 5 campos:
+  - Nombre
+  - Apellido
+  - Documento
+  - Email
+  - Contraseña
+✓ ScrollView para mejor UX en dispositivos pequeños
+✓ Botón "Registrarse" (modo contained)
+✓ Enlace volver al login
+
+DESPUÉS DEL LOGIN
+─────────────────
+✓ Se muestra la BOTTOM NAVIGATION con 4 pestañas
+✓ Colores de la barra: Fondo blanco (#FEF7FF)
+✓ Iconos inactivos: Gris (#79747E)
+✓ Iconos activos: Púrpura (#6750A4)
+✓ Texto de pestañas siempre visible
+
+TAB 1: 🏍️ MOTOS (OffersScreen) - PESTAÑA POR DEFECTO
+──────────────────────────────────
+✓ Título: "🏍️ Motos Disponibles"
+✓ Subtítulo: "Encuentra la moto perfecta para tu viaje"
+✓ Lista de 4 motos (datos dummy):
+  - Honda CB500 - $25/día
+  - Yamaha XTZ 250 - $20/día
+  - Kawasaki Ninja 400 - $30/día
+  - Suzuki GSX-R150 - $18/día
+
+Cada moto muestra:
+  ✓ Marca y modelo (texto grande)
+  ✓ Año y ubicación
+  ✓ Precio (en púrpura)
+  ✓ Descripción
+  ✓ Emoji (🏍️)
+  ✓ 2 botones: "Ver Detalles" y "Alquilar"
+
+Al hacer click en "Ver Detalles":
+  ✓ Se abre un Modal con más información
+  ✓ Muestra propietario, ubicación, descripción completa
+  ✓ Botón "Enviar Solicitud de Alquiler"
+  ✓ Botón "Volver"
+
+TAB 2: ➕ MIS OFERTAS (MyOffersScreen)
+────────────────────────────────
+✓ Título: "Mis Ofertas"
+✓ Barra horizontal con 3 sub-pestañas:
+  1. "Mis Motos" - Motos que publiqué
+  2. "Propuestas" - Solicitudes de alquiler
+  3. "Agregar Moto" - Formulario
+
+SUB-TAB 1: MIS MOTOS
+───────────────────
+✓ Muestra 2 motos de ejemplo (datos dummy)
+✓ Cada una con:
+  - Marca, modelo, año
+  - Status badge (✓ Activa / Inactiva)
+  - Precio por día
+  - Número de alquileres completados
+  - Botones: "Editar" y "Más Info"
+
+SUB-TAB 2: PROPUESTAS
+────────────────────
+✓ Muestra 3 solicitudes de alquiler (datos dummy)
+✓ Status:
+  - Pendiente (naranja)
+  - Aceptada (verde)
+  - Rechazada (rojo)
+✓ Cada una con:
+  - Nombre del usuario que solicita
+  - Moto solicitada
+  - Fechas (inicio y fin)
+  - Número de días
+  - Precio total
+  - Botones: "Rechazar" y "Aceptar" (solo si está pendiente)
+
+SUB-TAB 3: AGREGAR MOTO
+───────────────────────
+✓ Formulario con campos:
+  - Marca
+  - Modelo
+  - Año (teclado numérico)
+  - Precio por día
+  - Descripción (multi-línea)
+✓ Botones:
+  - "Publicar Moto" (modo contained, deshabilitado mientras carga)
+  - "Limpiar Formulario" (modo outlined)
+
+TAB 3: 💬 CHAT (ChatScreen)
+────────────────────────
+✓ Título: "Mensajes (3 chats activos)"
+✓ Conversación con múltiples usuarios (datos dummy)
+✓ Cada mensaje muestra:
+  - Avatar emoji
+  - Nombre del usuario (solo si no es mío)
+  - Texto del mensaje
+  - Timestamp (hora)
+  - Color diferente para mensajes míos (púrpura) vs otros (gris)
+
+✓ Input en la base:
+  - Campo de texto: "Escribe un mensaje..."
+  - Botón de envío (icono send)
+  - Suporta múltiples líneas
+  - Max 500 caracteres
+
+✓ Funcionalidad:
+  - Scroll automático al último mensaje
+  - Efectos KeyboardAvoidingView
+  - Animaciones suaves
+
+TAB 4: 👤 PERFIL (ProfileScreen)
+────────────────────────────────
+✓ Título: "Perfil de Usuario"
+✓ Card con información:
+  - Nombre
+  - Email
+✓ Botón rojo: "Cerrar Sesión" (en la base)
+✓ Datos mostradores: Datos reales del contexto de autenticación
+✓ Funcionalidad:
+  - Al hacer click en logout → Vuelve a Login
+  - Se limpia el token
+
+
+FLUJO COMPLETO DE TESTING
+─────────────────────────
+
+1. REGISTRO (si no tienes cuenta)
+   [ ] Abre la app
+   [ ] Click en "¿No tienes cuenta? Regístrate"
+   [ ] Completa: Juan, García, 12345678, juan@mail.com, password123
+   [ ] Click en "Registrarse"
+   [ ] Debería mostrar mensaje de éxito
+   [ ] Vuelve a login
+
+2. LOGIN
+   [ ] Entra con tu email registrado
+   [ ] Contraseña
+   [ ] Click en "Iniciar Sesión"
+   [ ] Debería mostrar loading
+   [ ] Debería entrar (o fallar con error si los datos no son validos)
+
+3. NAVEGACIÓN
+   [ ] Verifica que ves 4 pestañas en la base
+   [ ] Pestaña 1 (Motos) está activa por defecto
+   [ ] Los iconos se colorean al cambiar de pestaña
+
+4. PANTALLA DE MOTOS
+   [ ] Scroll de motos visible
+   [ ] Click en "Ver Detalles" → Abre modal
+   [ ] Modal muestra más información
+   [ ] Click en "X" o "Volver" → Cierra modal
+   [ ] Click en "Alquilar" → Muestra alert
+
+5. PANTALLA MIS OFERTAS
+   [ ] Tab "Mis Motos" muestra 2 motos de ejemplo
+   [ ] Tab "Propuestas" muestra 3 solicitudes con status
+   [ ] Tab "Agregar Moto" muestra formulario
+   [ ] Completa formulario y clickea "Publicar"
+
+6. PANTALLA CHAT
+   [ ] Se ve lista de mensajes
+   [ ] Escribe en el input
+   [ ] Click en botón send (paper plane)
+   [ ] El mensaje aparece en la conversación
+   [ ] Scroll automático al final
+
+7. PANTALLA PERFIL
+   [ ] Se ve información del usuario
+   [ ] Click en "Cerrar Sesión"
+   [ ] Vuelve a Login
+   [ ] El token se limpia
+
+
+ERRORES COMUNES Y SOLUCIONES
+─────────────────────────────
+
+Error: "Cannot find module 'react-native-paper'"
+→ Ejecuta: npm install react-native-paper
+
+Error: "BottomNavigation is not exported"
+→ Verifica que imports en App.tsx sean correctos
+→ Necesitas: import { BottomNavigation } from 'react-native-paper';
+
+Error: "Module not found: OffersScreen"
+→ Verifica ruta correcta: src/screens/OffersScreen.js
+→ Verifica nombre exacto del archivo
+
+Error: "Can't find variable UserContext"
+→ Verifica que AuthContext esté correctamente importado
+→ Verifica que el provider enuelva la app
+
+Iconos no aparecen:
+→ Verifica que react-native-vector-icons esté instalado
+→ En Android: Puede necesitar rebuild
+→ En iOS: Puede necesitar pod install
+
+Scroll no funciona en Chat:
+→ Verifica que el componente esté dentro de <KeyboardAvoidingView>
+→ Verifica que <FlatList> tenga ref y contentContainerStyle
+
+
+DEBUGGEO
+────────
+
+Para ver logs en la consola:
+   npx react-native log-android
+   npx react-native log-ios
+
+Para resetear caché:
+   npm start -- --reset-cache
+
+Para resetear todo:
+   npm start -- --reset-cache && npx react-native doctor
+
+
+SIGUIENTES PASOS
+────────────────
+
+1. ✓ Sistema de navegación implementado
+2. ✓ UI con Material Design 3
+3. ✓ Datos dummy en 3 de 4 pantallas
+4. Próximo: Integrar API real
+   - Reemplazar datos dummy con API calls
+   - Implementar autenticación real
+   - Sincronizar estado con servidor
+
+5. Próximo: Agregar funcionalidad
+   - Búsqueda en motos
+   - Filtros por precio/ubicación
+   - Calificaciones
+   - Historial de transacciones
+
+6. Próximo: Optimizaciones
+   - Caché de datos
+   - Sincronización en background
+   - Notificaciones push
+   - Dark mode (opcional)
+
+*/
+
+console.log('🚀 Listo para comenzar el testing');

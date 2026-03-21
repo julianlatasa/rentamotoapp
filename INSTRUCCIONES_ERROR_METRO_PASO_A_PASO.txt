@@ -1,0 +1,195 @@
+╔═══════════════════════════════════════════════════════════════════════╗
+║         INSTRUCCIONES PARA RESOLVER ERROR DE METRO                   ║
+║         (Failed to get SHA-1 for metro-runtime)                      ║
+╚═══════════════════════════════════════════════════════════════════════╝
+
+
+SOLUCIÓN RÁPIDA (3 PASOS)
+═════════════════════════
+
+PASO 1: EJECUTAR SCRIPT DE LIMPIEZA
+────────────────────────────────────
+
+Ve a la carpeta del proyecto:
+  C:\Users\Julian\Desarrollo\rent-a-moto-app\RentAMotoApp
+
+Busca el archivo: EJECUTAR_PARA_LIMPIAR.bat
+
+Haz clic derecho → "Ejecutar como administrador"
+
+(Si no aparece el archivo, crea uno nuevo)
+
+Espera a que termine y muestre "LIMPIEZA COMPLETADA"
+
+Presiona una tecla para cerrar la ventana
+
+
+PASO 2: INICIAR METRO CON CACHÉ LIMPIO
+────────────────────────────────────────
+
+1. Abre CMD (no PowerShell):
+   - Presiona: Windows + R
+   - Escribe: cmd
+   - Presiona Enter
+
+2. En la ventana CMD, ejecuta:
+
+   cd c:\Users\Julian\Desarrollo\rent-a-moto-app\RentAMotoApp
+   npm start -- --reset-cache
+
+3. ESPERA hasta ver:
+   ✓ "Compiled successfully"
+   ✓ "Looking for devices..."
+   ✓ "Metro bundler ready"
+
+   (Puede tardar 1-2 minutos la primera vez)
+
+4. NO CIERRES ESTA VENTANA - Déjala abierta
+
+
+PASO 3: EJECUTAR EN ANDROID
+───────────────────────────
+
+1. Abre una NUEVA ventana de CMD:
+   - Presiona: Windows + R
+   - Escribe: cmd
+   - Presiona Enter
+
+2. Ejecuta:
+
+   cd c:\Users\Julian\Desarrollo\rent-a-moto-app\RentAMotoApp
+   npm run android
+
+3. Espera a que:
+   ✓ Compila
+   ✓ Se abre Android Studio (o Gradle)
+   ✓ Se instala en el emulador/dispositivo
+   ✓ Se abre la app
+
+4. Cuando veas la app abierta, presiona cualquier tecla en la ventana CMD
+   que ejecuta Metro. Deberías ver:
+   
+   "Successfully reloaded app"
+
+
+SI FUNCIONA
+═══════════
+
+Cuando veas la app abierta, verifica:
+✓ 4 pestañas en la parte inferior
+✓ Puedes navegar entre tabs
+✓ Las pantallas se cargan correctamente
+
+
+SI NO FUNCIONA - INTENTA ESTO
+══════════════════════════════
+
+1. MATA METRO:
+   En la ventana del Metro, presiona: CTRL + C
+
+2. LIMPIA MÁS AGRESIVAMENTE:
+
+   En CMD, ejecuta:
+   
+   cd c:\Users\Julian\Desarrollo\rent-a-moto-app\RentAMotoApp
+   rmdir /s /q node_modules
+   del package-lock.json
+   npm install
+   npm start -- --reset-cache
+
+3. En otra terminal:
+   npm run android
+
+
+SI SIGUE SIN FUNCIONAR - RESETEO COMPLETO
+═══════════════════════════════════════════
+
+Si llegaste aquí, ejecuta esto COMO ADMINISTRADOR:
+
+1. Abre CMD como Administrador:
+   - Presiona Windows
+   - Escribe: cmd
+   - Sobre "Símbolo del sistema", presiona derecho
+   - "Ejecutar como administrador"
+
+2. Ejecuta estos comandos uno por uno:
+
+   cd c:\Users\Julian\Desarrollo\rent-a-moto-app\RentAMotoApp
+   
+   rmdir /s /q node_modules
+   
+   del package-lock.json
+   
+   npm cache clean --force
+   
+   npm install
+   
+   npm start -- --reset-cache
+
+3. En otra terminal:
+   npm run android
+
+
+DIAGNÓSTICO
+═══════════
+
+Si quieres ver qué está pasando exactamente:
+
+1. En CMD, verifica que tienes Node:
+   node --version
+   (Debería mostrar: v24.14.0 o similar)
+
+2. Verifica que tienes npm:
+   npm --version
+   (Debería mostrar: 10.x.x o similar)
+
+3. Verifica que puedes ejecutar scripts:
+   npx --version
+   (Debería mostrar un número de versión)
+
+
+ATAJO PARA MÁQUINA LENTA
+═════════════════════════
+
+Si tu computadora es lenta, puedes intentar:
+
+1. Cierra Android Studio y otros programas pesados
+2. No ejecutes otros comandos npm simultáneamente
+3. Espera más tiempo en el paso 2 (puede tardar 3-5 min)
+4. Libera espacio en disco (necesita ~500MB)
+
+
+INFORMACIÓN TÉCNICA (Por si necesitas debuggear)
+═════════════════════════════════════════════════
+
+El error ocurre porque:
+- Metro no puede leer el archivo metro-runtime/require.js
+- Puede ser caché corrupta, permisos, o sincronización
+
+Solutions:
+- npm cache clean --force → Limpia caché de npm
+- npm start --reset-cache → Reconstruye Metro desde cero
+- rmdir node_modules → Reinstala todas las dependencias
+
+Es común después de:
+- Cambios grandes en dependencias
+- Interrupciones durante npm install
+- Actualizaciones de React Native
+- Cambios en metro.config.js
+
+
+CONTACTO / AYUDA
+════════════════
+
+Si nada funciona:
+1. Verifica que no hay espacios raros en la ruta
+2. Intenta desde otra carpeta en el disco (C:\ vs D:\)
+3. Desactiva temporalmente antivirus
+4. Asegúrate de tener permisos en la carpeta
+
+
+═══════════════════════════════════════════════════
+
+¡Espero que funcione! 🚀
+
+Cualquier duda, avísame.
