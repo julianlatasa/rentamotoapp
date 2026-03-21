@@ -1,5 +1,4 @@
 import * as Keychain from 'react-native-keychain';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // API base URL - Soporta múltiples entornos
 // Para emulador Android: usa 10.0.2.2 (que resuelve a localhost del host)
@@ -78,20 +77,14 @@ export const authService = {
     
     const data = await response.json();
     
-    // Guardar token e ID del usuario
     if (data.jwt) {
-      await Keychain.setGenericPassword('authToken', data.jwt);
-    }
-    if (data.userId) {
-      await AsyncStorage.setItem('user_id', data.userId.toString());
-    }
-    if (data.username) {
-      await AsyncStorage.setItem('user_email', data.username);
+      // Guardamos el token y usamos el campo 'username' para guardar el userId
+      // Así evitamos usar AsyncStorage
+      await Keychain.setGenericPassword(data.userId.toString(), data.jwt);
     }
     
     return data;
   },
-
   register: async (email, password, nombre, apellido, documento) => {
     const response = await fetch(`${API_URL}/usuarios`, {
       method: 'POST',
@@ -107,14 +100,12 @@ export const authService = {
   },
 
   logout: async () => {
-    // Eliminar todos los datos de sesión
     await Keychain.resetGenericPassword();
-    await AsyncStorage.removeItem('user_id');
-    await AsyncStorage.removeItem('user_email');
   },
 
   getUserId: async () => {
-    return await AsyncStorage.getItem('user_id');
+    const credentials = await Keychain.getGenericPassword();
+    return credentials ? credentials.username : null; // El ID ahora vive en el username de Keychain
   },
 
   getToken: async () => {
@@ -123,7 +114,7 @@ export const authService = {
   },
 
   getProfile: async () => {
-    const userId = await AsyncStorage.getItem('user_id');
+    const userId = await authService.getUserId(); // Obtenemos el ID desde Keychain
     if (!userId) {
       throw new Error('No se encontró el ID del usuario');
     }

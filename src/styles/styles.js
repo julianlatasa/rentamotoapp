@@ -1,61 +1,66 @@
+// src/styles/styles.js
 import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
   main: { 
     flex: 1, 
-    backgroundColor: '#f5f5f5' 
-  },
-  container: { 
-    flex: 1, 
-    padding: 20, 
-    marginTop: 30 
+    backgroundColor: '#FEF7FF' 
   },
   centerContainer: { 
     flex: 1, 
     justifyContent: 'center', 
-    padding: 20 
+    padding: 24 
   },
   title: { 
-    fontSize: 24, 
+    fontSize: 28, 
     fontWeight: 'bold', 
-    marginBottom: 20, 
-    textAlign: 'center' 
+    marginBottom: 32, 
+    textAlign: 'center',
+    color: '#1C1B1F'
   },
   input: { 
-    backgroundColor: 'white', 
-    padding: 10, 
-    borderRadius: 5, 
-    marginBottom: 10, 
+    backgroundColor: '#F3F3F3', 
+    padding: 16, 
+    borderRadius: 16, // Bordes redondeados modernos
+    marginBottom: 16, 
     borderWidth: 1, 
-    borderColor: '#ddd' 
+    borderColor: '#79747E',
+    fontSize: 16,
+    color: '#1C1B1F'
+  },
+  // NUEVO: Estilo para el botón personalizado
+  button: {
+    backgroundColor: '#6750A4', // Púrpura Material Design 3
+    paddingVertical: 14,
+    borderRadius: 28, // Botón completamente redondeado
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 10,
+    elevation: 2, // Sombra en Android
+    shadowColor: '#000', // Sombra en iOS
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+  },
+  buttonText: {
+    color: '#FFFFFF',
+    fontSize: 16,
+    fontWeight: '600',
+  },
+  buttonDisabled: {
+    backgroundColor: '#958DA5',
   },
   link: { 
-    color: 'blue', 
-    marginTop: 15, 
-    textAlign: 'center' 
+    color: '#6750A4', 
+    marginTop: 24, 
+    textAlign: 'center',
+    fontWeight: '500'
   },
-  card: { 
-    backgroundColor: 'white', 
-    padding: 15, 
-    marginBottom: 10, 
-    borderRadius: 8, 
-    elevation: 2 
-  },
-  cardTitle: { 
-    fontSize: 18, 
-    fontWeight: 'bold', 
-    marginBottom: 5 
-  },
-  header: { 
-    flexDirection: 'row', 
-    justifyContent: 'space-between', 
-    alignItems: 'center', 
-    marginBottom: 20 
-  },
-  row: { 
-    flexDirection: 'row', 
-    justifyContent: 'space-around', 
-    width: '100%', 
-    marginTop: 10 
+  logo: {
+    width: 120,
+    height: 120,
+    alignSelf: 'center',
+    marginBottom: 20,
+    resizeMode: 'contain'
   }
 });
