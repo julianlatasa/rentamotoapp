@@ -1,4 +1,4 @@
-package com.rentamotoapp
+package com.rentamoto.app
 
 import com.facebook.react.ReactActivity
 import com.facebook.react.ReactActivityDelegate
